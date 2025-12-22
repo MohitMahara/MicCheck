@@ -22,20 +22,30 @@ export default function MicTestPage() {
   const chunksRef = useRef<BlobPart[]>([]);
 
   useEffect(() => {
-    navigator.permissions
-      ?.query({ name: "microphone" as PermissionName })
-      .then((result) => {
-        if (result.state === "granted") {
-          startMicTest();
-        }
-      })
-      .catch(() => {});
+    checkMicrophonePermission();
 
     return () => {
       intervalRef.current && clearInterval(intervalRef.current);
       streamRef.current?.getTracks().forEach((t) => t.stop());
     };
   }, []);
+
+  const checkMicrophonePermission = async () => {
+    try {
+      const result = await navigator.permissions?.query({ name: "microphone" as PermissionName });
+      if (result) {
+        if (result.state === "denied") {
+          setError("Microphone access is blocked. Please allow microphone access in your browser settings.");
+          setStatus("error");
+        }
+          startMicTest();
+      } else {
+        startMicTest();
+      }
+    } catch (err) {
+      startMicTest();
+    }
+  };
 
   const startMicTest = async () => {
     try {
@@ -62,9 +72,19 @@ export default function MicTestPage() {
 
       recorderRef.current = recorder;
       setStatus("ready");
-    } catch {
-      setError("Microphone access denied");
+    } catch (err: any) {
+      console.error("Microphone access error:", err);
       setStatus("error");
+
+      if (err.name === "NotAllowedError") {
+        setError("Microphone access denied. Please click the camera/microphone icon in your browser's address bar and allow access.");
+      } else if (err.name === "NotFoundError") {
+        setError("No microphone found. Please check your microphone connection.");
+      } else if (err.name === "NotReadableError") {
+        setError("Microphone is already in use by another application.");
+      } else {
+        setError("Unable to access microphone. Please check your browser settings and try again.");
+      }
     }
   };
 
@@ -116,7 +136,7 @@ export default function MicTestPage() {
     >
       <div className="max-w-6xl mx-auto py-10">
 
-        {status !== "idle" && (
+        {status !== "idle" && status !== "error" && (
           <div className="pb-6 max-w-2xl mx-auto">
             <div className="bg-white/5 border border-white/10 rounded-xl px-6 py-4 mb-6">
               <h3 className="text-lg text-blue-500 text-center font-semibold mb-2">
@@ -172,7 +192,18 @@ export default function MicTestPage() {
               </p>
             )}
             {status === "error" && (
-              <p className="text-sm text-red-400">{error}</p>
+              <div className="text-center">
+                <p className="text-sm text-red-400 mb-4">{error}</p>
+                {error.includes("blocked") || error.includes("denied") ? (
+                  <div className="text-xs text-gray-400 mb-4 space-y-2">
+                    <p><strong>In Chrome:</strong> Click the lock/camera icon in the address bar → Allow microphone</p>
+                    <p><strong>Or:</strong> Go to Settings → Privacy and security → Site settings → Microphone → Allow</p>
+                  </div>
+                ) : null}
+                <Button onClick={startMicTest} variant="primary" size="sm">
+                  Try Again
+                </Button>
+              </div>
             )}
 
             {status === "idle" && (
