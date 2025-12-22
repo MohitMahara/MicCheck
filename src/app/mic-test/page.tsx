@@ -34,7 +34,7 @@ export default function MicTestPage() {
     try {
       const result = await navigator.permissions?.query({ name: "microphone" as PermissionName });
       if (result && result.state === "granted") {
-          setStatus("ready");
+        startMicTest();
       } 
     } catch (err) {
       startMicTest();
