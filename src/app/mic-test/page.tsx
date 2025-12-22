@@ -128,7 +128,7 @@ export default function MicTestPage() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div className={`min-h-[50vh] grid grid-cols-1 md:grid-cols-2 gap-12 ${status === "idle" ? "pt-2 md:pt-26" : ""}`}>
 
           <div>
             <h1 className="text-4xl font-bold mb-4">Mic Test</h1>
