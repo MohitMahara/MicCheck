@@ -33,15 +33,9 @@ export default function MicTestPage() {
   const checkMicrophonePermission = async () => {
     try {
       const result = await navigator.permissions?.query({ name: "microphone" as PermissionName });
-      if (result) {
-        if (result.state === "denied") {
-          setError("Microphone access is blocked. Please allow microphone access in your browser settings.");
-          setStatus("error");
-        }
-          startMicTest();
-      } else {
-        startMicTest();
-      }
+      if (result && result.state === "granted") {
+          setStatus("ready");
+      } 
     } catch (err) {
       startMicTest();
     }
