@@ -2,10 +2,6 @@
 
 Instantly check if your microphone is working properly. No downloads, no sign-ups, just real-time audio input testing directly in your browser.
 
-## Prerequisites
-
-- Node.js (v18 or later)
-- MongoDB (local or Atlas account)
 
 ## Setup
 
