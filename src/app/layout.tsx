@@ -11,6 +11,10 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "Mic Test App",
   description: "A simple Next.js app to test microphone functionality",
+    icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({

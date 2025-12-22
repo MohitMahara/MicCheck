@@ -1,7 +1,7 @@
 type ButtonProps = {
   children: React.ReactNode;
   className?: string;
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "success" | "danger";
   type?: "button" | "submit" | "reset";
   disabled?: boolean;
   onClick?: () => void;
@@ -12,6 +12,8 @@ export default function Button({ children, variant="primary", className = "", ty
   const variantClasses = {
     primary: 'bg-blue-500 hover:bg-blue-600',
     secondary: 'border border-white/20 hover:bg-white/10',
+    success : 'bg-green-500 hover:bg-green-600',
+    danger : 'bg-red-500 hover:bg-red-600',
   };
   
   return (

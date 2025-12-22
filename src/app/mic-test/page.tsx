@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Mic, MicOff } from "lucide-react";
+import Button from "@/components/ui/Button";
 
 const SAMPLE_TEXT = "Hello, this is a microphone test";
 const RECORDING_DURATION = 5; // seconds
@@ -175,41 +176,29 @@ export default function MicTestPage() {
             )}
 
             {status === "idle" && (
-              <button
-                onClick={startMicTest}
-                className="px-6 py-3 bg-blue-500 hover:bg-blue-600 rounded-lg font-medium"
-              >
+              <Button onClick={startMicTest} variant="primary">
                 Start Mic Test
-              </button>
+              </Button>
             )}
 
             {status === "ready" && (
-              <button
-                onClick={startRecording}
-                className="px-6 py-3 bg-green-500 hover:bg-green-600 rounded-lg"
-              >
+              <Button onClick={startRecording} variant="success">
                 Start Recording
-              </button>
+              </Button>
             )}
 
             {status === "recording" && (
-              <button
-                onClick={stopRecording}
-                className="px-6 py-3 bg-red-500 hover:bg-red-600 rounded-lg"
-              >
+              <Button onClick={stopRecording} variant="danger">
                 Stop Recording
-              </button>
+              </Button>
             )}
 
             {status === "recorded" && (
               <>
                 <audio controls src={audioURL!} className="w-full" />
-                <button
-                  onClick={retryTest}
-                  className="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-lg"
-                >
+                <Button onClick={retryTest} variant="primary">
                   Retry Test
-                </button>
+                </Button>
               </>
             )}
           </div>
