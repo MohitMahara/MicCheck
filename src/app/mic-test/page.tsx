@@ -200,7 +200,7 @@ export default function MicTestPage() {
                     <p><strong>Or:</strong> Go to Settings → Privacy and security → Site settings → Microphone → Allow</p>
                   </div>
                 ) : null}
-                <Button onClick={startMicTest} variant="primary" size="sm">
+                <Button onClick={startMicTest} variant="primary">
                   Try Again
                 </Button>
               </div>
