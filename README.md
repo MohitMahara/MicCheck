@@ -45,4 +45,4 @@ After recording:
 
 - Next.js
 - TypeScript
-- Tailwind CSS
+- Tailwind
